@@ -1,0 +1,15 @@
+.env
+
+.prettierrc
+.eslintrc.js
+
+.idea
+.vscode
+
+.gitignore
+.dockerignore
+
+dist
+node_modules
+
+Dockerfile
