@@ -1,43 +1,22 @@
-version: '3'
+version: '3.5'
+
+
 services:
-
-  db:
-    image: postgres
+  postgres:
+    container_name: postgres_db
+    image: postgres:latest
     restart: always
+    env_file:
+      - .env
     environment:
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-    container_name: postgres-true-global
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /data/postgres
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - postgres-db:/data/postgres
     ports:
-      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+      - '${DB_PORT}:5432'
 
-#  nestjs:
-#    build:
-#      context: .
-#      dockerfile: ./Dockerfile
-#    image: tusharchy/nest-and-postgres-application:latest
-#    environment:
-#      - DB_TYPE=${DB_TYPE}
-#      - POSTGRES_HOST=${POSTGRES_HOST}
-#      - POSTGRES_USER=${DATABASE_USER}
-#      - POSTGRES_PASS=${DATABASE_PASSWORD}
-#      - POSTGRES_DB=${DB_NAME}
-#      - POSTGRES_SYNC=false
-#      - JWT_SECRET=${JWT_SECRET}
-#      - POSTGRES_PORT=${POSTGRES_PORT}
-#      - APP_EXPIRES=${APP_EXPIRES}
-#      - APP_PORT=${APP_PORT}
-#    ports:
-#      - '${APP_PORT}:${APP_PORT}'
-#    container_name: nest-true-global
-#    depends_on:
-#      - db
-#    volumes:
-#      - .:/app
-#      - /app/node_modules
 volumes:
-  pgdata:
+  postgres-db:
+    driver: local

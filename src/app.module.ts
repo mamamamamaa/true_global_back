@@ -4,6 +4,7 @@ import { UserModule } from './user/user.module';
 import { TaskModule } from './task/task.module';
 import { CategoryModule } from './category/category.module';
 import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
     UserModule,
     TaskModule,
     CategoryModule,
+    DatabaseModule,
   ],
   providers: [],
 })
