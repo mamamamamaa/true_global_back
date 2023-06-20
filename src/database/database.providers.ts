@@ -11,6 +11,7 @@ export const databaseProviders = [
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        logging: true,
         synchronize: true,
       });
 

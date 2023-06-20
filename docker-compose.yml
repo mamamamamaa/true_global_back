@@ -1,22 +1,15 @@
-version: '3.5'
-
+version: '3.8'
 
 services:
-  postgres:
+  db:
     container_name: postgres_db
-    image: postgres:latest
+    image: postgres:15-alpine
     restart: always
-    env_file:
-      - .env
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      PGDATA: /data/postgres
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     volumes:
-      - postgres-db:/data/postgres
+      - ./pgdata:/var/lib/postgresql/data
     ports:
       - '${DB_PORT}:5432'
-
-volumes:
-  postgres-db:
-    driver: local
