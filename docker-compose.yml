@@ -5,6 +5,8 @@ services:
     container_name: postgres_db
     image: postgres:15-alpine
     restart: always
+    env_file:
+      - .env
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -13,3 +15,21 @@ services:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - '${DB_PORT}:5432'
+
+  nestjs:
+      build:
+        context: .
+        dockerfile: ./Dockerfile
+      depends_on:
+        - db
+      env_file:
+        - .env
+      environment:
+        - DB_PORT=${DB_PORT}
+        - DB_USERNAME=${DB_USERNAME}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_NAME=${DB_NAME}
+        - JWT_SECRET=${JWT_SECRET}
+        - APP_PORT=${APP_PORT}
+      ports:
+        - '${APP_PORT}:${APP_PORT}'
