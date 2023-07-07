@@ -33,5 +33,13 @@ export class AuthService {
       throw new HttpException('Invalid email or password', HttpStatus.CONFLICT);
 
     const { id } = user;
+
+    const payload = { id };
+
+    const accessToken = await this.jwtService.signAsync(payload);
+
+    await this.userService.setAccessToken(id, accessToken);
+
+    return { email, accessToken };
   }
 }

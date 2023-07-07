@@ -28,6 +28,7 @@ services:
 #        - DB_PASSWORD=${DB_PASSWORD}
 #        - DB_NAME=${DB_NAME}
 #        - JWT_SECRET=${JWT_SECRET}
+#        - JWT_EXPIRES=${JWT_EXPIRES}
 #        - APP_PORT=${APP_PORT}
 #        - BCRYPT_SALT=${BCRYPT_SALT}
 #      ports:

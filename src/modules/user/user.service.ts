@@ -11,15 +11,15 @@ export class UserService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  async createUser(createUser: UserDto) {
-    try {
-      return await this.usersRepository.create(createUser);
-    } catch (err) {
-      return new HttpException(err.message, HttpStatus.BAD_REQUEST);
-    }
+  createUser(createUser: UserDto) {
+    return this.usersRepository.create(createUser);
   }
 
-  async findUser(email: string) {
+  findUser(email: string) {
     return this.usersRepository.findOne({ where: { email } });
+  }
+
+  setAccessToken(id: number, accessToken: string) {
+    return this.usersRepository.update(id, { accessToken });
   }
 }
