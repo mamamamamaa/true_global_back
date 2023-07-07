@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
-import { userProviders } from './user.providers';
+import { taskProviders } from '../../schemas/task/task.providers';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [...userProviders],
+  providers: [...taskProviders],
 })
-export class UserModule {}
+export class TaskModule {}

@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm';
 import {
   CONNECTION_TIMEOUT_IN_SECONDS,
   DATABASE_PROVIDER,
-} from '../consts/database';
+} from '../../consts/database';
 
 export const databaseProviders = [
   {
