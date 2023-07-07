@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run build
 
-ARG PORT
-EXPOSE $PORT
+ARG APP_PORT
+EXPOSE $APP_PORT
 
 CMD [ "node", "dist/main.js" ]

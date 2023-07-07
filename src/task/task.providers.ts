@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Task } from './task.entity';
-import { DATABASE_PROVIDER, TASK_PROVIDER } from '../conts/database';
+import { DATABASE_PROVIDER, TASK_PROVIDER } from '../consts/database';
 
 export const taskProviders = [
   {
