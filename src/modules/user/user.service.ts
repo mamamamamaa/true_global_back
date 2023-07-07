@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../../schemas/user/user.entity';
 import { Repository } from 'typeorm';
 import { UserDto } from './dto/User.dto';
@@ -19,7 +19,16 @@ export class UserService {
     return this.usersRepository.findOne({ where: { email } });
   }
 
-  setAccessToken(id: number, accessToken: string) {
-    return this.usersRepository.update(id, { accessToken });
+  getAll() {
+    return this.usersRepository.find();
+  }
+
+  async setAccessToken(id: number, accessToken: string) {
+    try {
+      console.log('here');
+      return await this.usersRepository.update(id, { accessToken });
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

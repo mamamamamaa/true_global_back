@@ -1,31 +1,31 @@
 import {
-  Body,
   HttpException,
   HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserDto } from '../user/dto/User.dto';
-import { UserService } from '../user/user.service';
-import { ConfigService } from '@nestjs/config';
-import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { UserDto } from '../user/dto/User.dto';
+import { ConfigService } from '@nestjs/config';
+import { UserService } from '../user/user.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   private readonly salt: string;
   constructor(
+    private jwtService: JwtService,
     private readonly userService: UserService,
     private readonly configService: ConfigService,
-    private jwtService: JwtService,
   ) {
     this.salt = this.configService.get('BCRYPT_SALT');
   }
 
-  async signIn(@Body() { email, password }: UserDto) {
+  async signIn({ email, password }: UserDto) {
     const user = await this.userService.findUser(email);
 
-    if (!user) throw new UnauthorizedException();
+    if (!user)
+      throw new HttpException('Invalid email or password', HttpStatus.CONFLICT);
 
     const comparePassword = await bcrypt.compare(password, user.password);
 
@@ -34,12 +34,38 @@ export class AuthService {
 
     const { id } = user;
 
-    const payload = { id };
-
-    const accessToken = await this.jwtService.signAsync(payload);
+    const accessToken = await this.generateAccessToken(id);
 
     await this.userService.setAccessToken(id, accessToken);
 
     return { email, accessToken };
+  }
+
+  async signUp({ email, password }: UserDto) {
+    const user = await this.userService.findUser(email);
+
+    if (user) throw new HttpException('Email in use', HttpStatus.CONFLICT);
+
+    const hashPassword = await bcrypt.hash(password, this.salt);
+
+    const { id } = await this.userService.createUser({
+      email,
+      password: hashPassword,
+    });
+
+    const accessToken = await this.generateAccessToken(id);
+
+    await this.userService.setAccessToken(id, accessToken);
+
+    return { email, accessToken };
+  }
+
+  async getAll() {
+    return this.userService.getAll();
+  }
+
+  private generateAccessToken(id: number) {
+    const payload = { id };
+    return this.jwtService.signAsync(payload);
   }
 }
