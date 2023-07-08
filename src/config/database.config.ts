@@ -9,7 +9,7 @@ export const databaseConfig: TypeOrmModuleAsyncOptions = {
     password: configService.get<string>('DB_PASSWORD'),
     username: configService.get<string>('DB_USERNAME'),
     database: configService.get<string>('DB_NAME'),
-    logging: true,
+    logging: false,
     synchronize: true,
     autoLoadEntities: true,
     retryAttempts: 30,

@@ -15,9 +15,4 @@ export class AuthController {
   signUp(@Body() dto: UserDto) {
     return this.authService.signUp(dto);
   }
-
-  @Get()
-  getAll() {
-    return this.authService.getAll();
-  }
 }

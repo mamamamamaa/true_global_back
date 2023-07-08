@@ -12,20 +12,18 @@ export class UserService {
   ) {}
 
   createUser(createUser: UserDto) {
-    return this.usersRepository.create(createUser);
+    return this.usersRepository.save(createUser);
   }
 
   findUser(email: string) {
     return this.usersRepository.findOneBy({ email });
   }
 
-  getAll() {
-    return this.usersRepository.find();
-  }
-
   async setAccessToken(id: number, accessToken: string) {
     const userToUpdate = await this.usersRepository.findOneBy({ id });
+
     userToUpdate.accessToken = accessToken;
+
     return this.usersRepository.save(userToUpdate);
   }
 }

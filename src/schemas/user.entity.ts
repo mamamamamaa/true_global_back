@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Category } from './categoty.entity';
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 
 enum UserRoles {
   USER = 'user',
@@ -33,6 +33,7 @@ export class User {
   role: UserRoles;
 
   @Column({ default: null })
+  @IsString()
   accessToken: string;
 
   @OneToMany(() => Category, (category) => category.user)
