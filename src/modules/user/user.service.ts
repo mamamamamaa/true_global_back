@@ -23,12 +23,7 @@ export class UserService {
     return this.usersRepository.find();
   }
 
-  async setAccessToken(id: number, accessToken: string) {
-    try {
-      console.log('here');
-      return await this.usersRepository.update(id, { accessToken });
-    } catch (e) {
-      console.log(e);
-    }
+  setAccessToken(id: number, accessToken: string) {
+    return this.usersRepository.update(id, { accessToken });
   }
 }

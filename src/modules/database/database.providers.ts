@@ -3,18 +3,20 @@ import {
   CONNECTION_TIMEOUT_IN_SECONDS,
   DATABASE_PROVIDER,
 } from '../../consts/database';
+import { User } from '../../schemas/user/user.entity';
+import { Category } from '../../schemas/category/categoty.entity';
+import { Task } from '../../schemas/task/task.entity';
+import { ConfigService } from '@nestjs/config';
 
 export const databaseProviders = [
   {
+    inject: [ConfigService],
     provide: DATABASE_PROVIDER,
-    useFactory: async () => {
-      const {
-        DB_USERNAME: username,
-        DB_PORT,
-        DB_PASSWORD: password,
-      } = process.env;
-
-      const port = Number(DB_PORT);
+    useFactory: async (configService: ConfigService) => {
+      const port = configService.get<number>('DB_PORT');
+      const database = configService.get<string>('DB_NAME');
+      const password = configService.get<string>('DB_PASSWORD');
+      const username = configService.get<string>('DB_USERNAME');
 
       while (true) {
         try {
@@ -24,7 +26,8 @@ export const databaseProviders = [
             port,
             username,
             password,
-            entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+            database,
+            entities: [User, Category, Task],
             logging: true,
             synchronize: true,
           });
