@@ -16,14 +16,16 @@ export class UserService {
   }
 
   findUser(email: string) {
-    return this.usersRepository.findOne({ where: { email } });
+    return this.usersRepository.findOneBy({ email });
   }
 
   getAll() {
     return this.usersRepository.find();
   }
 
-  setAccessToken(id: number, accessToken: string) {
-    return this.usersRepository.update(id, { accessToken });
+  async setAccessToken(id: number, accessToken: string) {
+    const userToUpdate = await this.usersRepository.findOneBy({ id });
+    userToUpdate.accessToken = accessToken;
+    return this.usersRepository.save(userToUpdate);
   }
 }

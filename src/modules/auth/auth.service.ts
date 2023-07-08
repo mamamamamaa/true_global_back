@@ -7,13 +7,13 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  private readonly salt: string;
+  private readonly salt: number;
   constructor(
     private jwtService: JwtService,
     private readonly userService: UserService,
     private readonly configService: ConfigService,
   ) {
-    this.salt = this.configService.get('BCRYPT_SALT');
+    this.salt = +this.configService.get<number>('BCRYPT_SALT');
   }
 
   async signIn({ email, password }: UserDto) {
@@ -29,7 +29,7 @@ export class AuthService {
 
     const { id } = user;
 
-    const accessToken = await this.generateAccessToken(id);
+    const accessToken = await this.jwtService.signAsync({ id });
 
     await this.userService.setAccessToken(id, accessToken);
 
@@ -40,7 +40,6 @@ export class AuthService {
     const user = await this.userService.findUser(email);
 
     if (user) throw new HttpException('Email in use', HttpStatus.CONFLICT);
-
     const hashPassword = await bcrypt.hash(password, this.salt);
 
     const { id } = await this.userService.createUser({
@@ -48,8 +47,8 @@ export class AuthService {
       password: hashPassword,
     });
 
-    const accessToken = await this.generateAccessToken(id);
-
+    const accessToken = await this.jwtService.signAsync({ id });
+    console.log(accessToken);
     await this.userService.setAccessToken(id, accessToken);
 
     return { email, accessToken };
@@ -57,10 +56,5 @@ export class AuthService {
 
   async getAll() {
     return this.userService.getAll();
-  }
-
-  private generateAccessToken(id: number) {
-    const payload = { id };
-    return this.jwtService.signAsync(payload);
   }
 }
