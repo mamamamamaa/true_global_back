@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from '../database/database.module';
-import { taskProviders } from '../../schemas/task/task.providers';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Task } from '../../schemas/task.entity';
 
 @Module({
-  imports: [DatabaseModule],
-  providers: [...taskProviders],
+  imports: [TypeOrmModule.forFeature([Task])],
+  providers: [],
 })
 export class TaskModule {}
