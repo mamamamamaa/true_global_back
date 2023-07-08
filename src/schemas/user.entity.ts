@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Category } from '../category/categoty.entity';
+import { Category } from './categoty.entity';
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 
 enum UserRoles {
