@@ -17,5 +17,10 @@ export class CategoryService {
     return this.categoryRepository.findBy({ user: { id: userId } });
   }
 
-  createCategory({ name }: CreateCategoryDto, userId: number) {}
+  async createCategory(categoryDto: CreateCategoryDto, userId: number) {
+    const categoryOwner = await this.userService.findUser({ id: userId });
+    const categoryData = { ...categoryDto, user: categoryOwner };
+
+    return this.categoryRepository.save(categoryData);
+  }
 }

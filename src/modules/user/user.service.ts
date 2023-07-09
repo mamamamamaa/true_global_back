@@ -16,8 +16,8 @@ export class UserService {
     return this.usersRepository.save(createUser);
   }
 
-  findUser(email: string) {
-    return this.usersRepository.findOneBy({ email });
+  findUser(property: UserProperties) {
+    return this.usersRepository.findOneBy(property);
   }
 
   async updateProperty(id: number, properties: UserProperties) {

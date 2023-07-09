@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   async signIn({ email, password }: UserDto) {
-    const user = await this.userService.findUser(email);
+    const user = await this.userService.findUser({ email });
 
     if (!user)
       throw new HttpException('Invalid email or password', HttpStatus.CONFLICT);
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   async signUp({ email, password }: UserDto) {
-    const user = await this.userService.findUser(email);
+    const user = await this.userService.findUser({ email });
 
     if (user) throw new HttpException('Email in use', HttpStatus.CONFLICT);
     const hashPassword = await bcrypt.hash(password, this.salt);
