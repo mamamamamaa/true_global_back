@@ -22,6 +22,6 @@ export class Category {
   @ManyToOne(() => User, (user) => user.categories)
   user: User;
 
-  @OneToMany(() => Task, (task) => task.category)
+  @OneToMany(() => Task, (task) => task.category, { cascade: true })
   tasks: Task[];
 }

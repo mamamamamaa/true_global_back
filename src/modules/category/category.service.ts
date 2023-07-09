@@ -19,16 +19,37 @@ export class CategoryService {
 
   async createCategory(categoryDto: CategoryDto, userId: number) {
     const categoryOwner = await this.userService.findUser({ id: userId });
-    const categoryData = { ...categoryDto, user: categoryOwner };
 
-    return this.categoryRepository.save(categoryData);
+    const { raw } = await this.categoryRepository
+      .createQueryBuilder()
+      .insert()
+      .values({ ...categoryDto, user: categoryOwner })
+      .returning('*')
+      .execute();
+
+    return raw.at(0);
   }
 
   async updateCategoryName(id: number, { name }: CategoryDto) {
-    const categoryToUpdate = await this.categoryRepository.findOneBy({ id });
+    const { raw } = await this.categoryRepository
+      .createQueryBuilder()
+      .update()
+      .set({ name })
+      .where('id = :id', { id })
+      .returning('*')
+      .execute();
 
-    categoryToUpdate.name = name;
+    return raw.at(0);
+  }
 
-    return this.categoryRepository.save(categoryToUpdate);
+  async removeCategory(id: number) {
+    const { raw } = await this.categoryRepository
+      .createQueryBuilder()
+      .delete()
+      .where('id = :id', { id })
+      .returning('*')
+      .execute();
+
+    return raw.at(0);
   }
 }

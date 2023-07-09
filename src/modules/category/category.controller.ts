@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -39,5 +40,10 @@ export class CategoryController {
     @Body() dto: CategoryDto,
   ) {
     return this.categoryService.updateCategoryName(id, dto);
+  }
+
+  @Delete(':id')
+  removeCategory(@Param('id', ParseIntPipe) id: number) {
+    return this.categoryService;
   }
 }

@@ -36,6 +36,6 @@ export class User {
   @IsString()
   accessToken: string;
 
-  @OneToMany(() => Category, (category) => category.user)
+  @OneToMany(() => Category, (category) => category.user, { cascade: true })
   categories: Category[];
 }
