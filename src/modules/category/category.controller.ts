@@ -1,6 +1,17 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { CreateCategoryDto } from './dto/CreateCategory.dto';
+import { CategoryDto } from './dto/category.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { Request } from 'express';
 import { Payload } from '../../types/jwt.types';
@@ -17,8 +28,16 @@ export class CategoryController {
   }
 
   @Post()
-  createCategory(@Body() dto: CreateCategoryDto, @Req() { user }: Request) {
+  createCategory(@Body() dto: CategoryDto, @Req() { user }: Request) {
     const { id } = user as Payload;
     return this.categoryService.createCategory(dto, id);
+  }
+
+  @Patch(':id')
+  updateCategory(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: CategoryDto,
+  ) {
+    return this.categoryService.updateCategoryName(id, dto);
   }
 }
