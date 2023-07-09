@@ -34,16 +34,16 @@ export class CategoryController {
     return this.categoryService.createCategory(dto, id);
   }
 
-  @Patch(':id')
+  @Patch(':categoryId')
   updateCategory(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
     @Body() dto: CategoryDto,
   ) {
-    return this.categoryService.updateCategoryName(id, dto);
+    return this.categoryService.updateCategoryName(categoryId, dto);
   }
 
-  @Delete(':id')
-  removeCategory(@Param('id', ParseIntPipe) id: number) {
-    return this.categoryService;
+  @Delete(':categoryId')
+  removeCategory(@Param('categoryId', ParseIntPipe) categoryId: number) {
+    return this.categoryService.removeCategory(categoryId);
   }
 }

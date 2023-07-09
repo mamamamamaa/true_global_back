@@ -10,5 +10,6 @@ import { JwtService } from '@nestjs/jwt';
   imports: [TypeOrmModule.forFeature([Category]), UserModule],
   providers: [CategoryService, JwtService],
   controllers: [CategoryController],
+  exports: [CategoryService],
 })
 export class CategoryModule {}
