@@ -3,6 +3,7 @@ import { User } from '../../schemas/user.entity';
 import { Repository } from 'typeorm';
 import { UserDto } from './dto/User.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserProperties } from '../../types/user.types';
 
 @Injectable()
 export class UserService {
@@ -19,10 +20,10 @@ export class UserService {
     return this.usersRepository.findOneBy({ email });
   }
 
-  async setAccessToken(id: number, accessToken: string) {
+  async updateProperty(id: number, properties: UserProperties) {
     const userToUpdate = await this.usersRepository.findOneBy({ id });
 
-    userToUpdate.accessToken = accessToken;
+    for (const key in properties) userToUpdate[key] = properties[key];
 
     return this.usersRepository.save(userToUpdate);
   }

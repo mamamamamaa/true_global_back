@@ -13,9 +13,9 @@ export class CategoryService {
     private readonly userService: UserService,
   ) {}
 
-  getAllCategories() {
-    return this.categoryRepository.find();
+  getUserCategories(userId: number) {
+    return this.categoryRepository.findBy({ user: { id: userId } });
   }
 
-  createCategory({ name }: CreateCategoryDto) {}
+  createCategory({ name }: CreateCategoryDto, userId: number) {}
 }

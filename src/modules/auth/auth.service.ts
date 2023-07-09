@@ -31,7 +31,7 @@ export class AuthService {
 
     const accessToken = await this.jwtService.signAsync({ id });
 
-    await this.userService.setAccessToken(id, accessToken);
+    await this.userService.updateProperty(id, { accessToken });
 
     return { email, accessToken };
   }
@@ -49,7 +49,7 @@ export class AuthService {
 
     const accessToken = await this.jwtService.signAsync({ id });
 
-    await this.userService.setAccessToken(id, accessToken);
+    await this.userService.updateProperty(id, { accessToken });
 
     return { email, accessToken };
   }
