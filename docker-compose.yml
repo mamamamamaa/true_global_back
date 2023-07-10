@@ -14,6 +14,8 @@ services:
       - PGPORT=${DB_PORT}
     ports:
       - '${DB_PORT}:${DB_PORT}'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   nestjs:
     container_name: nest_app
@@ -37,3 +39,6 @@ services:
       - BCRYPT_SALT=${BCRYPT_SALT}
     ports:
       - '${APP_PORT}:${APP_PORT}'
+
+volumes:
+  postgres_data:

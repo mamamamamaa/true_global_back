@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Category } from './categoty.entity';
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsString } from 'class-validator';
 
 enum UserRoles {
   USER = 'user',
