@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class UpdateTaskDto {
   @IsString()
@@ -17,11 +17,11 @@ export class UpdateTaskDto {
   })
   description?: string;
 
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
   dateStart?: Date;
 
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
   dateEnd?: Date;
 }
