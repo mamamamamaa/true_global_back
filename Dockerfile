@@ -1,8 +1,8 @@
-FROM node:18-alpine
+FROM node:18-alpine3.16
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package*.json ./
 
 RUN npm install
 
@@ -13,4 +13,4 @@ RUN npm run build
 ARG APP_PORT
 EXPOSE $APP_PORT
 
-CMD [ "node", "dist/main.js" ]
+CMD [ "npm", "run", "start:prod" ]
