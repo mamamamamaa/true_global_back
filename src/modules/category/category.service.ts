@@ -52,4 +52,11 @@ export class CategoryService {
 
     return raw.at(0);
   }
+
+  checkUserCategory(userId: number, categoryId: number) {
+    return this.categoryRepository.findOneBy({
+      user: { id: userId },
+      id: categoryId,
+    });
+  }
 }
