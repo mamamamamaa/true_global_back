@@ -7,7 +7,6 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -15,7 +14,7 @@ import { CategoryService } from './category.service';
 import { CategoryDto } from './dto/category.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { Request } from 'express';
-import { Payload } from '../../types/jwt.types';
+import { Payload } from '../../types/jwt.interface';
 
 @Controller('category')
 @UseGuards(AuthGuard)

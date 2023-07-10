@@ -6,13 +6,16 @@ export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: false })
   name: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'text', nullable: false })
+  description: string;
+
+  @Column({ type: 'date', nullable: false })
   dateStart: Date;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: false })
   dateEnd: Date;
 
   @ManyToOne(() => Category, (category) => category.tasks)

@@ -12,21 +12,23 @@ import { CategoryService } from '../category/category.service';
 export class TaskGuard implements CanActivate {
   constructor(private readonly categoryService: CategoryService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const { user, params } = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest();
 
-    const { id } = user;
-    const { categoryId } = params;
+    const { id } = request.user;
+    const { categoryId } = request.params;
 
-    const isUserCategory = await this.categoryService.checkUserCategory(
+    const userCategory = await this.categoryService.checkUserCategory(
       id,
       +categoryId,
     );
 
-    if (!isUserCategory)
+    if (!userCategory)
       throw new HttpException(
         `Category ID ${categoryId} is not assigned to this user`,
         HttpStatus.NOT_FOUND,
       );
+
+    request['category'] = userCategory;
 
     return true;
   }

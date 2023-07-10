@@ -12,17 +12,10 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true, nullable: false })
-  @IsEmail({}, { message: 'Incorrect email' })
-  @IsNotEmpty({ message: 'The email is required' })
+  @Column({ type: 'varchar', unique: true, nullable: false })
   email: string;
 
-  @Column({ nullable: false })
-  @Length(6, 30, {
-    message:
-      'The password must be at least 6 but not longer than 30 characters',
-  })
-  @IsNotEmpty({ message: 'The password is required' })
+  @Column({ type: 'varchar', nullable: false })
   password: string;
 
   @Column({
@@ -32,7 +25,7 @@ export class User {
   })
   role: UserRoles;
 
-  @Column({ default: null })
+  @Column({ type: 'varchar', default: null })
   @IsString()
   accessToken: string;
 
