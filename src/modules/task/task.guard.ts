@@ -20,7 +20,6 @@ export class TaskGuard implements CanActivate {
       id,
       +categoryId,
     );
-    console.log(userCategory);
 
     if (!userCategory)
       throw new HttpException(

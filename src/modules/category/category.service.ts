@@ -14,7 +14,13 @@ export class CategoryService {
   ) {}
 
   getUserCategories(userId: number) {
-    return this.categoryRepository.findBy({ user: { id: userId } });
+    return this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoin('category.tasks', 'task')
+      .select(['category.id', 'category.name', 'COUNT(task) as task_count'])
+      .where('category.user.id = :userId', { userId })
+      .groupBy('category.id, category.name')
+      .getRawMany();
   }
 
   async createCategory(categoryDto: CategoryDto, userId: number) {
