@@ -17,7 +17,11 @@ export class CategoryService {
     return this.categoryRepository
       .createQueryBuilder('category')
       .leftJoin('category.tasks', 'task')
-      .select(['category.id', 'category.name', 'COUNT(task) as task_count'])
+      .select([
+        'category.id',
+        'category.name',
+        'CAST(COUNT(task) AS integer) as task_count',
+      ])
       .where('category.user.id = :userId', { userId })
       .groupBy('category.id, category.name')
       .getRawMany();
