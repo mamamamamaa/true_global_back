@@ -18,9 +18,9 @@ export class CategoryService {
       .createQueryBuilder('category')
       .leftJoin('category.tasks', 'task')
       .select([
-        'category.id',
-        'category.name',
-        'CAST(COUNT(task) AS integer) as task_count',
+        'category.id AS id',
+        'category.name AS name',
+        'CAST(COUNT(task) AS integer) as taskCount',
       ])
       .where('category.user.id = :userId', { userId })
       .groupBy('category.id, category.name')

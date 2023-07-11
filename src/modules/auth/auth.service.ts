@@ -53,4 +53,10 @@ export class AuthService {
 
     return { email, accessToken };
   }
+
+  async logout(userId: number) {
+    await this.userService.updateProperty(userId, { accessToken: null });
+
+    return true;
+  }
 }
