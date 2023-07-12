@@ -29,11 +29,11 @@ export class AuthService {
 
     const { id } = user;
 
-    const accessToken = await this.jwtService.signAsync({ id });
+    const access_token = await this.jwtService.signAsync({ id });
 
-    await this.userService.updateProperty(id, { accessToken });
+    await this.userService.updateProperty(id, { access_token });
 
-    return { email, accessToken };
+    return { email, access_token };
   }
 
   async signUp({ email, password }: UserDto) {
@@ -47,15 +47,15 @@ export class AuthService {
       password: hashPassword,
     });
 
-    const accessToken = await this.jwtService.signAsync({ id });
+    const access_token = await this.jwtService.signAsync({ id });
 
-    await this.userService.updateProperty(id, { accessToken });
+    await this.userService.updateProperty(id, { access_token });
 
-    return { email, accessToken };
+    return { email, access_token };
   }
 
   async logout(userId: number) {
-    await this.userService.updateProperty(userId, { accessToken: null });
+    await this.userService.updateProperty(userId, { access_token: null });
 
     return true;
   }

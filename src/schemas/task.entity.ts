@@ -13,10 +13,10 @@ export class Task {
   description: string;
 
   @Column({ type: 'date', nullable: false })
-  dateStart: Date;
+  date_start: Date;
 
   @Column({ type: 'date', nullable: false })
-  dateEnd: Date;
+  date_end: Date;
 
   @ManyToOne(() => Category, (category) => category.tasks)
   category: Category;

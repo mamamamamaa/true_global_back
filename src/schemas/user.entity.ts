@@ -27,7 +27,7 @@ export class User {
 
   @Column({ type: 'varchar', default: null })
   @IsString()
-  accessToken: string;
+  access_token: string;
 
   @OneToMany(() => Category, (category) => category.user, { cascade: true })
   categories: Category[];

@@ -17,7 +17,7 @@ export class Category {
   name: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  dateCreated: Date;
+  date_created: Date;
 
   @ManyToOne(() => User, (user) => user.categories)
   user: User;

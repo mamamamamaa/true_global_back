@@ -20,7 +20,8 @@ export class CategoryService {
       .select([
         'category.id AS id',
         'category.name AS name',
-        'CAST(COUNT(task) AS integer) as taskCount',
+        'category.date_created AS date_created',
+        'CAST(COUNT(task) AS integer) as task_count',
       ])
       .where('category.user.id = :userId', { userId })
       .groupBy('category.id, category.name')
@@ -31,13 +32,25 @@ export class CategoryService {
     const categoryOwner = await this.userService.findUser({ id: userId });
 
     const { raw } = await this.categoryRepository
-      .createQueryBuilder()
+      .createQueryBuilder('category')
       .insert()
       .values({ ...categoryDto, user: categoryOwner })
       .returning('*')
       .execute();
 
-    return raw.at(0);
+    const categoryId = raw[0].id;
+
+    const result = await this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoin('category.tasks', 'task')
+      .select('COUNT(task)', 'task_count')
+      .where('category.id = :categoryId', { categoryId })
+      .addGroupBy('category.id')
+      .getRawOne();
+
+    const task_count = result ? parseInt(result.task_count) : 0;
+
+    return { ...raw[0], task_count };
   }
 
   async updateCategoryName(id: number, { name }: CategoryDto) {
@@ -49,18 +62,38 @@ export class CategoryService {
       .returning('*')
       .execute();
 
-    return raw.at(0);
+    const result = await this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoin('category.tasks', 'task')
+      .select('COUNT(task)', 'task_count')
+      .where('category.id = :id', { id })
+      .addGroupBy('category.id')
+      .getRawOne();
+
+    const task_count = result ? parseInt(result.task_count) : 0;
+
+    return { ...raw[0], task_count };
   }
 
   async removeCategory(id: number) {
     const { raw } = await this.categoryRepository
-      .createQueryBuilder()
+      .createQueryBuilder('category')
       .delete()
       .where('id = :id', { id })
       .returning('*')
       .execute();
 
-    return raw.at(0);
+    const result = await this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoin('category.tasks', 'task')
+      .select('COUNT(task)', 'task_count')
+      .where('category.id = :id', { id })
+      .addGroupBy('category.id')
+      .getRawOne();
+
+    const task_count = result ? parseInt(result.task_count) : 0;
+
+    return { ...raw[0], task_count };
   }
 
   checkUserCategory(userId: number, categoryId: number) {
