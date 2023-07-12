@@ -33,13 +33,13 @@ export class AuthGuard implements CanActivate {
         secret: this.iwtSecret,
       });
 
-      const { accessToken } = await this.userService.findUser({
+      const user = await this.userService.findUser({
         id: payload.id,
       });
 
-      if (token !== accessToken) throw new UnauthorizedException();
+      if (token !== user.accessToken) throw new UnauthorizedException();
 
-      request['user'] = payload;
+      request['user'] = user;
     } catch {
       throw new UnauthorizedException();
     }

@@ -15,6 +15,7 @@ import { CategoryDto } from './dto/category.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { Request } from 'express';
 import { JwtPayload } from '../../types/jwt.interface';
+import { User } from '../../schemas/user.entity';
 
 @Controller('category')
 @UseGuards(AuthGuard)
@@ -23,13 +24,13 @@ export class CategoryController {
 
   @Get()
   getCategories(@Req() { user }: Request) {
-    const { id } = user as JwtPayload;
+    const { id } = user as User;
     return this.categoryService.getUserCategories(id);
   }
 
   @Post()
   createCategory(@Body() dto: CategoryDto, @Req() { user }: Request) {
-    const { id } = user as JwtPayload;
+    const { id } = user as User;
     return this.categoryService.createCategory(dto, id);
   }
 

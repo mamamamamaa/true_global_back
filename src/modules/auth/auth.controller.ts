@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { Request } from 'express';
 import { JwtPayload } from '../../types/jwt.interface';
+import { User } from '../../schemas/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +23,14 @@ export class AuthController {
   @Get('logout')
   @UseGuards(AuthGuard)
   logout(@Req() { user }: Request) {
-    const { id } = user as JwtPayload;
+    const { id } = user as User;
     return this.authService.logout(id);
+  }
+
+  @Get('refresh')
+  @UseGuards(AuthGuard)
+  refresh(@Req() { user }: Request) {
+    const { email } = user as User;
+    return { email };
   }
 }
