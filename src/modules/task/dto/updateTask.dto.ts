@@ -19,9 +19,9 @@ export class UpdateTaskDto {
 
   @IsDateString()
   @IsNotEmpty()
-  dateStart?: Date;
+  date_start?: Date;
 
   @IsDateString()
   @IsNotEmpty()
-  dateEnd?: Date;
+  date_end?: Date;
 }
