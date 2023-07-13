@@ -32,7 +32,7 @@ export class TaskService {
       .createQueryBuilder()
       .update()
       .set(updateTaskDto)
-      .where('id = :id', { taskId })
+      .where('id = :id', { id: taskId })
       .returning('*')
       .execute();
 
@@ -43,7 +43,7 @@ export class TaskService {
     const { raw } = await this.taskRepository
       .createQueryBuilder()
       .delete()
-      .where('id = :id', { taskId })
+      .where('id = :id', { id: taskId })
       .returning('*')
       .execute();
 
