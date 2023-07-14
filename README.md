@@ -9,9 +9,10 @@ First you need to make sure that you have **docker** and **docker-compose** inst
 ```
 git clone https://github.com/mamamamamaa/true_global.git
 ```
-* Create a ".env" file and then add environment variables like in [.env.example](https://github.com/mamamamamaa/true_global/blob/main/.env.example) file.
+* Create a ".env" file and then add environment variables like in [.env.example](https://github.com/mamamamamaa/true_global_back/blob/main/.env.example) file.
 ```
-// ....
+// ....another variables
+
 APP_PORT=9999 (require)
 ```
 * Run compose:
